@@ -1,0 +1,35 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>Flask Socket BF App</title>
+
+<script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    console.log(location.protocol + '//' + document.domain + ':' + location.port);
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    socket.on('my_response', function(message) {
+        console.log('message', message);
+        $("ul#message_holder").append('<li>' + JSON.stringify(message['mb']) +'</li>');
+    });
+    socket.on('connect', function() {
+        console.log('connected');
+
+        setInterval(function() {
+            console.log('pinging');
+            socket.emit('ping');
+        }, 2000);
+    });
+</script>
+
+  </head>
+  <body>
+
+    <ul id="message_holder"></ul>
+
+  </body>
+  </html>
